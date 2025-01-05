@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kliktron_app/auth/pages/login_screen.dart';
+import 'package:kliktron_app/auth/pages/register_screen.dart';
 import 'package:kliktron_app/bindings/initial_binding.dart';
 import 'package:kliktron_app/views/splash_screen.dart';
 import 'package:kliktron_app/views/onboarding_screen.dart'; // Import OnboardingScreen
@@ -15,7 +17,7 @@ class MyApp extends StatelessWidget {
       title: 'Kliktron',
       initialBinding: InitialBinding(),
       debugShowCheckedModeBanner: false,
-      home: SplashToOnboarding(),
+      home: RegisterScreen(),
     );
   }
 }
