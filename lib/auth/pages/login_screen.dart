@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -7,14 +8,14 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen>
     with SingleTickerProviderStateMixin {
-  final TextEditingController phoneController = TextEditingController();
+  String? completePhoneNumber; // Menyimpan nomor telepon lengkap
   bool isButtonEnabled = false;
 
   late AnimationController _animationController;
 
   void validateInput() {
     setState(() {
-      isButtonEnabled = phoneController.text.isNotEmpty;
+      isButtonEnabled = completePhoneNumber != null;
       if (isButtonEnabled) {
         _animationController.forward();
       } else {
@@ -26,7 +27,6 @@ class _LoginScreenState extends State<LoginScreen>
   @override
   void initState() {
     super.initState();
-    phoneController.addListener(validateInput);
 
     // Inisialisasi AnimationController
     _animationController = AnimationController(
@@ -37,7 +37,6 @@ class _LoginScreenState extends State<LoginScreen>
 
   @override
   void dispose() {
-    phoneController.dispose();
     _animationController.dispose();
     super.dispose();
   }
@@ -87,50 +86,26 @@ class _LoginScreenState extends State<LoginScreen>
                         ),
                       ),
                       const SizedBox(height: 10),
-                      Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: Colors.grey),
-                            ),
-                            child: Row(
-                              children: const [
-                                Text(
-                                  "+62",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                SizedBox(width: 5),
-                                Icon(Icons.flag, size: 20), // Placeholder bendera
-                              ],
-                            ),
+                      IntlPhoneField(
+                        decoration: InputDecoration(
+                          hintText: 'Enter your phone number',
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: TextField(
-                              controller: phoneController,
-                              keyboardType: TextInputType.phone,
-                              decoration: InputDecoration(
-                                hintText: "Enter your phone number",
-                                hintStyle: const TextStyle(color: Colors.grey),
-                                filled: true,
-                                fillColor: Colors.white,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: const BorderSide(color: Colors.blue),
-                                ),
-                              ),
-                            ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(color: Colors.blue),
                           ),
-                        ],
+                        ),
+                        initialCountryCode: 'ID', // Kode negara awal (Indonesia)
+                        onChanged: (phone) {
+                          setState(() {
+                            completePhoneNumber = phone.completeNumber;
+                          });
+                          validateInput();
+                        },
                       ),
                       const SizedBox(height: 5),
                       GestureDetector(
@@ -184,6 +159,7 @@ class _LoginScreenState extends State<LoginScreen>
                 onTap: isButtonEnabled
                     ? () {
                   // Continue button action
+                  print("Complete Phone Number: $completePhoneNumber");
                 }
                     : null,
                 child: AnimatedBuilder(
@@ -195,6 +171,7 @@ class _LoginScreenState extends State<LoginScreen>
                         onPressed: isButtonEnabled
                             ? () {
                           // Continue button action
+                          print("Complete Phone Number: $completePhoneNumber");
                         }
                             : null,
                         style: ElevatedButton.styleFrom(
