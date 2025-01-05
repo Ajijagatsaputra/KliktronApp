@@ -19,21 +19,13 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue,
+      backgroundColor: Color(0xFF1268F7), // Format hexadecimal
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset('assets/splashScreen/logokliktron.png', height: 100), // Ganti sesuai aset Anda
             const SizedBox(height: 20),
-            const Text(
-              'Kliktron',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.blue,
-              ),
-            ),
           ],
         ),
       ),
