@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:kliktron_app/auth/pages/otp_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -7,14 +9,14 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen>
     with SingleTickerProviderStateMixin {
-  final TextEditingController phoneController = TextEditingController();
+  String? completePhoneNumber; // Menyimpan nomor telepon lengkap
   bool isButtonEnabled = false;
 
   late AnimationController _animationController;
 
   void validateInput() {
     setState(() {
-      isButtonEnabled = phoneController.text.isNotEmpty;
+      isButtonEnabled = completePhoneNumber != null;
       if (isButtonEnabled) {
         _animationController.forward();
       } else {
@@ -26,7 +28,6 @@ class _LoginScreenState extends State<LoginScreen>
   @override
   void initState() {
     super.initState();
-    phoneController.addListener(validateInput);
 
     // Inisialisasi AnimationController
     _animationController = AnimationController(
@@ -37,7 +38,6 @@ class _LoginScreenState extends State<LoginScreen>
 
   @override
   void dispose() {
-    phoneController.dispose();
     _animationController.dispose();
     super.dispose();
   }
@@ -60,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen>
                       IconButton(
                         icon: const Icon(Icons.arrow_back, color: Colors.black),
                         onPressed: () {
-                          // Back button action
+                          Navigator.pop(context);
                         },
                       ),
                       const SizedBox(height: 20),
@@ -87,50 +87,27 @@ class _LoginScreenState extends State<LoginScreen>
                         ),
                       ),
                       const SizedBox(height: 10),
-                      Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: Colors.grey),
-                            ),
-                            child: Row(
-                              children: const [
-                                Text(
-                                  "+62",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                SizedBox(width: 5),
-                                Icon(Icons.flag, size: 20), // Placeholder bendera
-                              ],
-                            ),
+                      IntlPhoneField(
+                        decoration: InputDecoration(
+                          hintText: 'Enter your phone number',
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: TextField(
-                              controller: phoneController,
-                              keyboardType: TextInputType.phone,
-                              decoration: InputDecoration(
-                                hintText: "Enter your phone number",
-                                hintStyle: const TextStyle(color: Colors.grey),
-                                filled: true,
-                                fillColor: Colors.white,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: const BorderSide(color: Colors.blue),
-                                ),
-                              ),
-                            ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(color: Colors.blue),
                           ),
-                        ],
+                        ),
+                        initialCountryCode:
+                            'ID', // Kode negara awal (Indonesia)
+                        onChanged: (phone) {
+                          setState(() {
+                            completePhoneNumber = phone.completeNumber;
+                          });
+                          validateInput();
+                        },
                       ),
                       const SizedBox(height: 5),
                       GestureDetector(
@@ -148,8 +125,10 @@ class _LoginScreenState extends State<LoginScreen>
                       const SizedBox(height: 20),
                       RichText(
                         text: TextSpan(
-                          text: "By logging in or registering, you agree to our ",
-                          style: const TextStyle(fontSize: 14, color: Colors.grey),
+                          text:
+                              "By logging in or registering, you agree to our ",
+                          style:
+                              const TextStyle(fontSize: 14, color: Colors.grey),
                           children: [
                             TextSpan(
                               text: "Terms of Service",
@@ -183,8 +162,9 @@ class _LoginScreenState extends State<LoginScreen>
               child: GestureDetector(
                 onTap: isButtonEnabled
                     ? () {
-                  // Continue button action
-                }
+                        // Continue button action
+                        print("Complete Phone Number: $completePhoneNumber");
+                      }
                     : null,
                 child: AnimatedBuilder(
                   animation: _animationController,
@@ -194,12 +174,21 @@ class _LoginScreenState extends State<LoginScreen>
                       child: ElevatedButton(
                         onPressed: isButtonEnabled
                             ? () {
-                          // Continue button action
-                        }
+                                // Continue button action
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => OtpVerificationScreen(
+                                      phoneNumber: completePhoneNumber!,
+                                    ),
+                                  ),
+                                );
+                                // print("Complete Phone Number: $completePhoneNumber");
+                              }
                             : null,
                         style: ElevatedButton.styleFrom(
                           backgroundColor:
-                          isButtonEnabled ? Colors.blue : Colors.grey,
+                              isButtonEnabled ? Colors.blue : Colors.grey,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(50),
                           ),

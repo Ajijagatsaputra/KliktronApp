@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kliktron_app/routes/app_route.dart';
 import '../controllers/onboarding_controller.dart';
 import 'widgets/onboarding_item.dart';
 
@@ -61,7 +62,7 @@ class OnboardingScreen extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 16),
                   ),
                   onPressed: () {
-                    // Aksi register
+                    Get.toNamed(AppRoute.register);
                   },
                   child: Text(
                     'Register',
@@ -82,7 +83,7 @@ class OnboardingScreen extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 16),
                   ),
                   onPressed: () {
-                    // Aksi login
+                    Get.toNamed(AppRoute.login);
                   },
                   child: Text(
                     'Login',
