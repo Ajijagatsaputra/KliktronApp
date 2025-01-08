@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:kliktron_app/auth/pages/login_screen.dart';
+import 'package:get/get.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
-  final String phoneNumber; // Tambahkan parameter phoneNumber
+  final String phoneNumber;
 
   const OtpVerificationScreen({Key? key, required this.phoneNumber})
       : super(key: key);
@@ -13,7 +13,7 @@ class OtpVerificationScreen extends StatefulWidget {
 
 class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   final List<TextEditingController> _otpControllers =
-  List.generate(4, (_) => TextEditingController());
+      List.generate(4, (_) => TextEditingController());
   final String _dummyOtp = "1234"; // Dummy OTP
   bool _isOtpFilled = false;
 
@@ -27,7 +27,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
   void _checkOtpInput() {
     setState(() {
-      _isOtpFilled = _otpControllers.every((controller) => controller.text.isNotEmpty);
+      _isOtpFilled =
+          _otpControllers.every((controller) => controller.text.isNotEmpty);
     });
   }
 
@@ -45,11 +46,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
   void _verifyOtp() {
     if (_getOtp() == _dummyOtp) {
-      // Navigasi ke halaman login jika OTP benar
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => LoginScreen()),
-      );
+      // Navigasi ke halaman HomePage jika OTP benar
+      Get.toNamed("/home_page");
     } else {
       // Tampilkan pesan kesalahan jika OTP salah
       ScaffoldMessenger.of(context).showSnackBar(
@@ -100,7 +98,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: List.generate(
                 4,
-                    (index) => _buildOtpTextField(context, index),
+                (index) => _buildOtpTextField(context, index),
               ),
             ),
             const SizedBox(height: 20),

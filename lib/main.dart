@@ -4,6 +4,7 @@ import 'package:kliktron_app/auth/pages/otp_screen.dart';
 import 'package:kliktron_app/bindings/initial_binding.dart';
 import 'package:kliktron_app/routes/app_route.dart';
 import 'package:kliktron_app/views/acces_location_screen.dart';
+import 'package:kliktron_app/views/profile.dart';
 import 'package:kliktron_app/views/splash_screen.dart';
 import 'package:kliktron_app/views/onboarding_screen.dart'; // Import OnboardingScreen
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: AppRoute.splash,
       getPages: AppRoute.routes,
-      // home: AccessLocationScreen(),
+      // home: ProfileScreen(),
     );
   }
 }

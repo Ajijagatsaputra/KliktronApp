@@ -43,7 +43,7 @@ class AccessLocationScreen extends StatelessWidget {
                   ),
                 ),
                 padding:
-                const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -70,7 +70,7 @@ class AccessLocationScreen extends StatelessWidget {
                             color: Colors.white,
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 10),
                         // Judul dengan gaya yang lebih besar
                         const Text(
                           "Access Location",
@@ -80,7 +80,6 @@ class AccessLocationScreen extends StatelessWidget {
                             color: Colors.white,
                           ),
                         ),
-                        const SizedBox(height: 8),
                         // Deskripsi dengan jarak antar baris
                         const Text(
                           "We need access to your location to provide personalized advertising and show services near you.",
@@ -127,7 +126,7 @@ class AccessLocationScreen extends StatelessWidget {
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor:
-                              Colors.lightGreenAccent, // Warna hijau
+                                  Colors.lightGreenAccent, // Warna hijau
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(50),
                               ),
